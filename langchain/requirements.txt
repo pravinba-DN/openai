@@ -1,0 +1,6 @@
+python-dotenv
+langchain==0.3.6
+langchain-core==0.3.14
+langchain-openai==0.2.4
+openai==1.53.0
+warnings
