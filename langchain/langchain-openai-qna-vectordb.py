@@ -100,28 +100,9 @@ class DataProcessor:
             response = qa_stuff.run(query)
             print(response)
 
-
-            '''
-            response = index.query(query, llm=llm)
-            index = VectorstoreIndexCreator(
-            vectorstore_cls=DocArrayInMemorySearch,
-            embedding=self.embedding,
-            ).from_loaders([self.loader])
-            '''
             print("Vector store loaded.")  # Debugging statement
         except Exception as e:
             print(f"Error loading vector database: {e}")
-
-    def run_query(self, query):
-        try:
-            if self.docs is not None and self.embedding is not None:
-                db = DocArrayInMemorySearch.from_documents(self.docs, self.embedding)
-                results = db.similarity_search(query)
-                print("Search results:", results)
-            else:
-                print("Error: Docs or embedding not initialized.")
-        except Exception as e:
-            print(f"Error running query: {e}")
 
 def main():
     processor = DataProcessor()
