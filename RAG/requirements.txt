@@ -1,0 +1,13 @@
+python-dotenv
+langchain
+langchain-openai
+langchain-chroma
+langchain-community
+langchain-experimental
+unstructured[all-docs]
+pillow
+htmltabletomd
+ipython
+#pdf2image
+#pytesseract
+#poppler-utils
