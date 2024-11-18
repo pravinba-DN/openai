@@ -8,6 +8,9 @@ unstructured[all-docs]
 pillow
 htmltabletomd
 ipython
+redis
 #pdf2image
 #pytesseract
 #poppler-utils
+chromadb #This is just for a test. Needed to check/validate the data loaded in ChromaDB
+filetype
