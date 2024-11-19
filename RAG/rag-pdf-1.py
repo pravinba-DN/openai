@@ -353,6 +353,7 @@ def split_image_text_types(docs):
             texts.append(doc)
     return {"images": b64_images, "texts": texts}
 
+'''
 # Check retrieval and split docs according to their data type
 print(">>> Retrieve again but with new query which should return image & text ")
 query = "Tell me detailed statistics of the top 5 years with largest wildfire acres burned"
@@ -360,7 +361,7 @@ docs = retriever_multi_vector.invoke(query, limit=5)
 r = split_image_text_types(docs)
 #print(r)
 print(">>> Retrieval Output")
-
+'''
 
 from operator import itemgetter
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
@@ -447,30 +448,46 @@ multimodal_rag_w_sources = (RunnablePassthrough.assign(context=retrieve_docs)
 
 
 # Run multimodal RAG chain
-'''
-print("Executing the combined RAG chain >>>>")
-query = "Tell me detailed statistics of the top 5 years with largest wildfire acres burned"
-response = multimodal_rag_w_sources.invoke({'input': query})
-print(response)
-'''
+
+import sys
+
+def check_interactive():
+    if hasattr(sys, 'ps1'):
+        print("Running in interactive mode")
+        return True
+    else:
+        print("Not running in interactive mode")
+        return False
+
 
 print("Defining the QA logic into a function >>>>")
 def multimodal_rag_qa(query):
     response = multimodal_rag_w_sources.invoke({'input': query})
     print('=='*50)
     print('Answer:')
-    display(Markdown(response['answer']))
+    if(check_interactive()):
+        print("<<In interactive mode>1>")
+        display(Markdown(response['answer']))
+    else:
+        print("<<In non-interactive mode>1>")
+        print(response['answer'])
     print('--'*50)
     print('Sources:')
     text_sources = response['context']['texts']
     img_sources = response['context']['images']
     for text in text_sources:
-        display(Markdown(text))
+        if(check_interactive()):
+            print("<<In interactive mode>2>")
+            display(Markdown(response['answer']))
+        else:
+            print("<<In interactive mode>2>")
+            print(response['answer'])
         print()
     for img in img_sources:
         plt_img_base64(img)
         print()
     print('=='*50)
 
-query = "Tell me detailed statistics of the top 5 years with largest wildfire acres burned"
+#query = "Tell me detailed statistics of the top 5 years with largest wildfire acres burned"
+query = "Which year had the worst wildfire ever?"
 multimodal_rag_qa(query)
